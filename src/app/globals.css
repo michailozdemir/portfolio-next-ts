@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.base-card {
+  @apply relative p-6 min-h-180 rounded-2xl border border-opacity-0 border-border-light bg-bg-light overflow-hidden dark:border-opacity-100 dark:border dark:border-border-dark dark:bg-opacity-1;
+}
+
+.base-card-wo-padding {
+  @apply relative min-h-180 rounded-2xl border border-opacity-0 border-border-light bg-bg-light overflow-hidden dark:border-opacity-100 dark:border-border-dark dark:bg-opacity-1;
+}
