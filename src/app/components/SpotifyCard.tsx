@@ -3,9 +3,14 @@ import React from "react";
 import { ITrackData } from "../types/ITrackData";
 
 async function getSpotifyData(): Promise<ITrackData> {
-  const baseUrl = process.env.NEXT_API_URL || '';
-  const apiUrl = baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`;
+  const baseUrl = process.env.NEXT_API_URL || "";
+  const apiUrl = baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`;
   const response = await fetch(`${apiUrl}/api/spotify`, { cache: "no-store" });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch Spotify data");
+  }
+
   return response.json();
 }
 
