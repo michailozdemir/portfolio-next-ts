@@ -8,7 +8,8 @@ async function getSpotifyData(): Promise<ITrackData> {
   const response = await fetch(`${apiUrl}/api/spotify`, { cache: "no-store" });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch Spotify data");
+    const text = await response.text();
+    throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
   }
 
   return response.json();
