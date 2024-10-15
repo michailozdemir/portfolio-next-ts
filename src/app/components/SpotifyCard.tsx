@@ -3,16 +3,27 @@ import React from "react";
 import { ITrackData } from "../types/ITrackData";
 
 async function getSpotifyData(): Promise<ITrackData> {
-  const baseUrl = process.env.NEXT_API_URL || "";
-  const apiUrl = baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`;
-  const response = await fetch(`${apiUrl}/api/spotify`, { cache: "no-store" });
+  try {
+    const baseUrl = process.env.NEXT_API_URL || "";
+    const apiUrl = baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`;
+    const fullUrl = `${apiUrl}/api/spotify`;
+    console.log("Fetching from URL:", fullUrl);
 
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+    const response = await fetch(fullUrl, { cache: "no-store" });
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("API response:", text);
+      throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+    }
+
+    const data = await response.json();
+    console.log("API response data:", data);
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch Spotify data:", error);
+    throw error;
   }
-
-  return response.json();
 }
 
 const SpotifyCardServer = async () => {
